@@ -1,16 +1,15 @@
 {
-  "name": "gulp-ga",
-  "description": "Inject google analytics into html with Gulp (gulpjs.com)",
-  "version": "0.0.9",
-  "homepage": "http://github.com/zhhz/gulp-ga",
+  "name": "gulp-gtag",
+  "description": "Inject Google Analytics (gtag) into html with Gulp (gulpjs.com)",
+  "version": "1.0.0",
+  "homepage": "https://github.com/hal313/gulp-gtag",
   "repository": {
     "type": "git",
-    "url": "git://github.com/zhhz/gulp-ga.git"
+    "url": "git://github.com/hal313/gulp-gtag.git"
   },
   "author": {
-    "name": "Zhonghai Zuo",
-    "email": "zhonghai.zuo@gmail.com",
-    "url": "http://zhonghaizuo.com"
+    "name": "John Ghidiu",
+    "url": "http://www.johnghidiu.com"
   },
   "main": "./index.js",
   "dependencies": {
@@ -29,16 +28,15 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/zhhz/gulp-ga/raw/master/LICENSE"
+      "url": "https://raw.githubusercontent.com/hal313/gulp-gtag/master/LICENSE"
     }
   ],
   "bugs": {
-    "url": "https://github.com/zhhz/gulp-ga/issues"
+    "url": "https://github.com/hal313/gulp-gtag/issues"
   },
   "maintainers": [
     {
-      "name": "zhhz",
-      "email": "zhonghai.zuo@gmail.com"
+      "name": "John Ghidiu"
     }
   ],
   "directories": {}
