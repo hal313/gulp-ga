@@ -1,46 +1,59 @@
 var through = require('through2'),
-  gutil = require('gulp-util');
+    gutil = require('gulp-util');
 
 module.exports = function(opts) {
-  opts                 = opts || {};
-  opts.url             = opts.url || '';
-  opts.tag             = opts.tag || 'head';
-  opts.uid             = opts.uid || '';
-  opts.require         = opts.require || '';
-  opts.anonymizeIp     = opts.anonymizeIp     === false ? false : true;
-  opts.nonceTag        = opts.nonceTag        === true  ? true  : false;
-  opts.demographics    = opts.demographics    === true  ? true  : false;
-  opts.linkAttribution = opts.linkAttribution === true  ? true  : false;
-  opts.sendPageView    = opts.sendPageView    === true  ? true  : false;
-  opts.minify          = opts.minify          === true  ? true  : false;
+    opts                 = opts || {};
+    opts.tag             = opts.tag || 'head';
+    opts.uid             = opts.uid || '';
+    opts.nonceTag        = opts.nonceTag        === true  ? true  : false;
+    opts.minify          = opts.minify          === true  ? true  : false;
+    // opts.indent can be 0, so check for undefined instead of presence
+    opts.indent          = undefined != opts.indent ? opts.indent : 4;
 
-  return through.obj(function(file, enc, cb) {
-    if(file.isNull()) return cb(null, file);
-    if(file.isStream()) return cb(new Error('gulp-ga: streams not supported'));
-    var ga = "  <script";
-    if( opts.nonceTag ) { ga += ' nonce="{{nonce}}"'; }
-    ga += ">\n" +
-        "      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n" +
-        "      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n" +
-        "      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n" +
-        "      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n" +
-        "\n" +
-        "      ga('create', '" + opts.uid + "', '" + opts.url + "');\n" +
-        "      ga('set', 'anonymizeIp'," + opts.anonymizeIp + ");\n";
-    if(opts.demographics)     { ga += "      ga('require', 'displayfeatures');\n"; }
-    if(opts.linkAttribution)  { ga += "      ga('require', 'linkid', 'linkid.js');\n"; }
-    if(opts.bounceTime > 1)   { ga += "      setTimeout(\"ga('send', 'event', 'read', '" + opts.bounceTime + " seconds')\"," +  opts.bounceTime + "000);\n"; }
-    if(opts.sendPageView) { ga += "      ga('send', 'pageview');\n"; }
-    if(opts.require) { ga += "      ga('require', '" + opts.require + "');\n"; }
+    return through.obj(function(file, enc, cb) {
+        var gtagString = '',
+            indentString = new Array(opts.indent + 1).join(' '),
+            nonce = !!opts.nonceTag ? ' nonce="{{nonce}}"' : '',
+            content;
 
-    ga += "    </script>\n  </" + opts.tag + ">\n";
+        if (file.isNull()) {
+            return cb(null, file);
+        }
 
-    if(opts.minify) {
-      ga = ga.replace(/\s*\n\s*/g, '');
-    }
-    var content = file.contents.toString();
-    content = content.replace('<\/' + opts.tag + '>', ga);
-    file.contents = new Buffer(content);
-    cb(null, file);
-  });
+        if (file.isStream()) {
+            return cb(new Error('gulp-gtag: streams not supported'));
+        }
+
+        // Populate the content string
+        gtagString += '' +
+            '<' + opts.tag + '>\n' +
+            indentString + '<!-- Global site tag (gtag.js) - Google Analytics -->\n' +
+            indentString + '<script async src="https://www.googletagmanager.com/gtag/js?id=' + opts.uid + '"></script>\n' +
+            indentString + '<script' + nonce + '>\n' +
+            indentString + indentString + 'window.dataLayer = window.dataLayer || [];\n' +
+            indentString + indentString + 'function gtag(){dataLayer.push(arguments);}\n' +
+            indentString + indentString + 'gtag(\'js\', new Date());\n' +
+            '\n' +
+            indentString + indentString + 'gtag(\'config\', \'' + opts.uid + '\');\n' +
+            indentString + '</script>\n';
+
+        // Minify the code, if desired
+        if(opts.minify) {
+            gtagString = gtagString.replace(/\s*\n\s*/g, '');
+        }
+
+        // Get the file content
+        content = file.contents.toString();
+
+        // Replace the content with the augmented markup
+        content = content.replace('<' + opts.tag + '>', gtagString);
+
+        // Reassign the buffer
+        file.contents = new Buffer(content);
+        console.log('new html', content);
+
+        // Notify Gulp that we are done
+        cb(null, file);
+    });
+
 };

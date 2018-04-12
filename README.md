@@ -1,16 +1,19 @@
-# gulp-ga
+# gulp-gtag
 
-> Adds Google Analytics code into HTML files.
+> Injects Google Analytics (gtag) code into HTML files.
 
 ## Information
 
+This is a fork of [gulp-ga](https://github.com/zhhz/gulp-ga) and has been modified to support the newer gtag script
+for Google Analytics.
+
 <table>
 <tr>
-<td>Package</td><td>gulp-ga</td>
+<td>Package</td><td>gulp-gtag</td>
 </tr>
 <tr>
 <td>Description</td>
-<td>Insert Google Analytics code into HTML with Gulp (gulpjs.com)</td>
+<td>Injects Google Analytics (gtag) code into HTML with Gulp (gulpjs.com)</td>
 </tr>
 <tr>
 <td>Node Version</td>
@@ -28,35 +31,25 @@
 #### Install
 
 ```bash
-$ npm install gulp-ga --save-dev
+$ npm install gulp-gtag --save-dev
 ```
 
 ## Example
 
 ```js
 var gulp = require('gulp');
-var ga = require('gulp-ga');
+var gtag = require('gulp-gtag');
 
 // Basic usage:
-gulp.task('ga', function(){
+gulp.task('gtag', function(){
   gulp.src('./index.html')
-  .pipe(ga({url: 'mydomain.com', uid: 'UA-12345678-1'}))
+  .pipe(gtag({uid: 'UA-12345678-1'}))
   .pipe(gulp.dest('./'));
 });
 
 ```
 
 ## Options
-### options.url
-The page you want analysis (required)
-
-    Type: `String`
-
-Example:
-
-```js
-.pipe(ga({url: 'mydomain.com'})
-```
 
 ### options.uid
 Set the uid (required)
@@ -66,18 +59,7 @@ Set the uid (required)
 Example:
 
 ```js
-.pipe(ga({uid: 'UA-12345678-1'}))
-```
-
-### options.require
-Set the require field (optional)
-
-    Type: `String`
-
-Example:
-
-```js
-.pipe(ga({require: 'urlChangeTracker'}))
+.pipe(gtag({uid: 'UA-12345678-1'}))
 ```
 
 ### options.tag
@@ -89,57 +71,21 @@ Set a specific tag to insert before it.
 Example:
 
 ```js
-.pipe(ga({tag: 'head'}))
-.pipe(ga({tag: 'body'}))
+.pipe(gtag({tag: 'head'}))
+.pipe(gtag({tag: 'body'}))
+
 ```
 
-### options.anonymizeIp
-Allow requests IP address anonymization
-
-    Type: `Boolean`
-    Default: `true`
-
-Example:
-
-```js
-.pipe(ga({anonymizeIp: false}))
-```
-
-
-### options.demographics
-Enable display features.
-
-    Type: `Boolean`
-    Default: `false`
-
-Example:
-
-```js
-.pipe(ga({demographics: true}))
-```
-
-### options.linkAttribution
-Set an enhanced link-tracking functionality.
-
-    Type: `Boolean`
-    Default: `false`
-
-Example:
-
-```js
-.pipe(ga({linkAttribution: true}))
-```
-
-### options.bounceTime
-Set a specific bounce time.
+### options.indent
+Number of spaces for indentation (for formatting)
 
     Type: `Number`
-    Default: `N/A`
+    Default: `4`
 
 Example:
 
 ```js
-.pipe(ga({bounceTime: 15}))
+.pipe(gtag({indent: 2}))
 ```
 
 ### options.minify
@@ -151,19 +97,7 @@ Minify GA script code (remove `\n` and trailing whitespace).
 Example:
 
 ```js
-.pipe(ga({minify: true}))
-```
-
-### options.sendPageView
-Send page view option.
-
-    Type: `Boolean`
-    Default: `true`
-
-Example:
-
-```js
-.pipe(ga({sendPageView: true}))
+.pipe(gtag({minify: true}))
 ```
 
 ### options.nonceTag
@@ -175,32 +109,11 @@ Add a nonce attribute and a nonce template to the script tag. So that we can imp
 Example:
 
 ```js
-.pipe(ga({nonceTag: true}))
+.pipe(gtag({nonceTag: true}))
 ```
 
 
 
 ## LICENSE
 
-(MIT License)
-
-Copyright (c) 2014,2016 Zhonghai Zuo <zhonghai.zuo@gmail.com> zhhz
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[MIT License](https://raw.githubusercontent.com/hal313/gulp-gtag/master/LICENSE)
