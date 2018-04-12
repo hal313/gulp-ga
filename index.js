@@ -50,7 +50,6 @@ module.exports = function(opts) {
 
         // Reassign the buffer
         file.contents = new Buffer(content);
-        console.log('new html', content);
 
         // Notify Gulp that we are done
         cb(null, file);
