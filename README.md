@@ -2,6 +2,10 @@
 
 > Injects Google Analytics (gtag) code into HTML files.
 
+[![Build Status](http://img.shields.io/travis/hal313/gulp-gtag/master.svg?style=flat-square)](https://travis-ci.org/hal313/gulp-gtag)
+[![NPM version](http://img.shields.io/npm/v/gulp-gtag.svg?style=flat-square)](https://www.npmjs.com/package/gulp-gtag)
+[![Dependency Status](http://img.shields.io/david/hal313/gulp-gtag.svg?style=flat-square)](https://david-dm.org/hal313/gulp-gtag)
+
 ## Information
 
 This is a fork of [gulp-ga](https://github.com/zhhz/gulp-ga) and has been modified to support the newer gtag script
