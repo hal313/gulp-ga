@@ -1,7 +1,7 @@
 {
   "name": "gulp-gtag",
   "description": "Inject Google Analytics (gtag) into html with Gulp (gulpjs.com)",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/hal313/gulp-gtag",
   "repository": {
     "type": "git",
